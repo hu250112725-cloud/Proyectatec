@@ -106,13 +106,5 @@ public class Panel extends JPanel {
         g.drawString("W/A/S/D para mover · R para reiniciar", margenX, getHeight() - 20);
     }
 
-    // --- MÉTODO MAIN PARA PROBAR EL PANEL EN UNA VENTANA ---
-    public static void main(String[] args) {
-        JFrame ventana = new JFrame("HUD de Prueba");
-        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ventana.setContentPane(new Panel());
-        ventana.pack();
-        ventana.setLocationRelativeTo(null);
-        ventana.setVisible(true);
-    }
+    
 }
