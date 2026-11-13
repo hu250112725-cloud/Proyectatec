@@ -4,42 +4,47 @@ public class ListaEnlazada<T> {
     private Nodo<T> primero;
     private Nodo<T> ultimo;
     private int cantidad;
-    public boolean esVacia(){
+
+    public boolean esVacia() {
         return this.cantidad == 0;
     }
-    public int obtenerCantidad(){
+
+    public int obtenerCantidad() {
         return this.cantidad;
     }
-    public void agregarAlFinal(T elemento){
+
+    public void agregarAlFinal(T elemento) {
         Nodo<T> nodo = new Nodo<>(elemento);
         if (esVacia()) {
             primero = nodo;
             ultimo = nodo;
-        }else {
+        } else {
             ultimo.establecerSiguiente(nodo);
             ultimo = nodo;
         }
         this.cantidad++;
     }
-    public T obtenerEn(int indice){
+
+    public T obtenerEn(int indice) {
         if (indice < 0 || indice >= this.cantidad) {
             throw new IndexOutOfBoundsException("Indice fuera de rango");
         }
-    Nodo<T> nodoActual = this.primero;
+        Nodo<T> nodoActual = this.primero;
         for (int i = 0; i < indice; i++) {
             nodoActual = nodoActual.obtenerSiguiente();
         }
         return nodoActual.obtenerDato();
     }
-    public T eliminarEn(int indice){
+
+    public T eliminarEn(int indice) {
         if (indice < 0 || indice >= this.cantidad) {
             throw new IndexOutOfBoundsException("Indice fuera de rango");
         }
-        if(indice==0){
+        if (indice == 0) {
             Nodo<T> nodoEliminado = this.primero;
             this.primero = this.primero.obtenerSiguiente();
             this.cantidad--;
-            if(this.cantidad==0){
+            if (this.cantidad == 0) {
                 this.ultimo = null;
             }
             return nodoEliminado.obtenerDato();
@@ -56,7 +61,35 @@ public class ListaEnlazada<T> {
         this.cantidad--;
         return nodoEliminado.obtenerDato();
     }
-    public void mostrar(){
+
+    public void agregar(int indice, T elemento) {
+        if (indice < 0 || indice > this.cantidad) {
+            throw new IndexOutOfBoundsException("Indice fuera de rango");
+        }
+        if (indice == 0) {
+            Nodo<T> nuevo = new Nodo<>(elemento);
+            nuevo.establecerSiguiente(this.primero);
+            this.primero = nuevo;
+            if (this.cantidad == 0) {
+                this.ultimo = nuevo;
+            }
+            this.cantidad++;
+            return;
+        }
+        Nodo<T> anterior = this.primero;
+        for (int i = 0; i < indice - 1; i++) {
+            anterior = anterior.obtenerSiguiente();
+        }
+        Nodo<T> nuevo = new Nodo<>(elemento);
+        nuevo.establecerSiguiente(anterior.obtenerSiguiente());
+        anterior.establecerSiguiente(nuevo);
+        if (nuevo.obtenerSiguiente() == null) {
+            this.ultimo = nuevo;
+        }
+        this.cantidad++;
+    }
+
+    public void mostrar() {
         Nodo<T> nodoActual = this.primero;
         while (nodoActual != null) {
             System.out.print(nodoActual.obtenerDato() + " -> ");
@@ -64,38 +97,10 @@ public class ListaEnlazada<T> {
         }
         System.out.println("null");
     }
-    public void agregar(int indice, T elemento){
-        if (indice < 0 || indice > this.cantidad) {
-            throw new IndexOutOfBoundsException("Indice fuera de rango");
 
-        }
-        if (indice == 0) {
-            Nodo<T> nuevo = new Nodo<>(elemento);
-            nuevo.establecerSiguiente(this.primero);
-            this.primero = nuevo;
-
-            if (this.cantidad == 0) {
-                this.ultimo = nuevo;
-            }
-
-            this.cantidad++;
-            return;
-        }
-        Nodo<T> anterior = this.primero;
-
-        for (int i = 0; i < indice - 1; i++) {
-            anterior = anterior.obtenerSiguiente();
-        }
-        Nodo<T> nuevo = new Nodo<>(elemento);
-
-        nuevo.establecerSiguiente(anterior.obtenerSiguiente());
-
-        anterior.establecerSiguiente(nuevo);
-        if (nuevo.obtenerSiguiente() == null) {
-            this.ultimo = nuevo;
-        }
-
-        this.cantidad++;
+    public void vaciar() {
+        this.primero = null;
+        this.ultimo = null;
+        this.cantidad = 0;
     }
-
 }
